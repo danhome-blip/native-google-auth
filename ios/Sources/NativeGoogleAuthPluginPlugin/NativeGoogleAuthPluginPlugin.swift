@@ -12,6 +12,11 @@ public class NativeGoogleAuthPluginPlugin: CAPPlugin, CAPBridgedPlugin {
   private let implementation = NativeGoogleAuthPlugin()
 
   @objc func signIn(_ call: CAPPluginCall) {
-    implementation.signIn(call, bridge: self.bridge!)
+    guard let bridge = bridge else {
+      call.reject("bridge_unavailable", "Capacitor bridge is not available.")
+      return
+    }
+
+    implementation.signIn(call, bridge: bridge)
   }
 }
